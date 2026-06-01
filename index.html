@@ -451,7 +451,10 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:#f0f4f8;color:#1a1a1a
 .ltest-zip-chk input:checked~svg{stroke:#92400e}
 
 /* size note */
-.ltest-size-note{font-size:11px;color:#6b7280;letter-spacing:.01em;line-height:1.6}
+.ltest-size-note-row{margin-top:10px;padding:9px 12px;background:#f8fafc;border:1px solid #e8eaed;border-radius:8px}
+.ltest-size-note{font-size:11px;color:#6b7280;letter-spacing:.01em;line-height:1.8}
+.ltest-size-note .raw{color:#374151;font-weight:600}
+.ltest-size-note .zip{color:#0ea472;font-weight:600}
 
 /* ── toast ── */
 .toast{position:fixed;bottom:22px;right:22px;background:#fff;color:#111827;border:1px solid #e5e7eb;border-left:3px solid #0ea472;padding:10px 18px;border-radius:var(--radius);font-size:12px;font-weight:600;opacity:0;transform:translateY(6px);transition:all .25s;pointer-events:none;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,.12)}
@@ -494,8 +497,8 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:#f0f4f8;color:#1a1a1a
       Records are built in batches up to <b>3,00,000 records</b>.<span class="zip-chip">ZIP auto-enabled at 10 MB+</span>
     </div>
     <div class="perf-stats-row">
-      <span class="perf-stat-chip">INN · ~764 B/rec · 1L ≈ 73 MB · 3L ≈ 218 MB</span>
-      <span class="perf-stat-chip">AA · ~962 B/rec · 1L ≈ 92 MB · 3L ≈ 275 MB</span>
+      <span class="perf-stat-chip">INN · 3L ≈ 218 MB raw / ~7 MB ZIP</span>
+      <span class="perf-stat-chip">AA · 3L ≈ 275 MB raw / ~14.5 MB ZIP</span>
     </div>
   </div>
 </div>
@@ -636,7 +639,9 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:#f0f4f8;color:#1a1a1a
         <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         Download as ZIP
       </label>
-      <span class="ltest-size-note" id="inn-ltest-note">764 bytes/record · 10,000 ≈ 7 MB · 1,00,000 ≈ 73 MB · 3,00,000 ≈ 218 MB (always use ZIP) · Max 3,00,000</span>
+    </div>
+    <div class="ltest-size-note-row">
+      <span class="ltest-size-note" id="inn-ltest-note">764 bytes/record &nbsp;·&nbsp; 10,000 → <span class="raw">7 MB raw</span> / <span class="zip">~0.2 MB ZIP</span> &nbsp;·&nbsp; 1,00,000 → <span class="raw">73 MB raw</span> / <span class="zip">~2.3 MB ZIP</span> &nbsp;·&nbsp; 3,00,000 → <span class="raw">218 MB raw</span> / <span class="zip">~7 MB ZIP</span> &nbsp;·&nbsp; Max 3,00,000</span>
     </div>
     <div class="ltest-progress" id="inn-prog"><div class="prog-bar-wrap"><div class="prog-bar" id="inn-prog-bar"></div></div><span id="inn-prog-txt">Generating...</span></div>
     <div class="ltest-stat" id="inn-ltest-stat"></div>
@@ -749,7 +754,9 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:#f0f4f8;color:#1a1a1a
         <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         Download as ZIP
       </label>
-      <span class="ltest-size-note" id="aa-ltest-note">962 bytes/record · 10,000 ≈ 9 MB · 1,00,000 ≈ 92 MB · 3,00,000 ≈ 275 MB (always use ZIP) · Max 3,00,000</span>
+    </div>
+    <div class="ltest-size-note-row">
+      <span class="ltest-size-note" id="aa-ltest-note">962 bytes/record &nbsp;·&nbsp; 10,000 → <span class="raw">9 MB raw</span> / <span class="zip">~0.5 MB ZIP</span> &nbsp;·&nbsp; 1,00,000 → <span class="raw">92 MB raw</span> / <span class="zip">~4.8 MB ZIP</span> &nbsp;·&nbsp; 3,00,000 → <span class="raw">275 MB raw</span> / <span class="zip">~14.5 MB ZIP</span> &nbsp;·&nbsp; Max 3,00,000</span>
     </div>
     <div class="ltest-progress" id="aa-prog"><div class="prog-bar-wrap"><div class="prog-bar" id="aa-prog-bar"></div></div><span id="aa-prog-txt">Generating...</span></div>
     <div class="ltest-stat" id="aa-ltest-stat"></div>
@@ -2977,7 +2984,7 @@ function ltestGenINN(){
     multiProv:document.getElementById('inn-multi-prov').checked
   };
 
-  var provCount=opts.multiProv?rndInt(2,5):1;
+  var provCount=opts.multiProv?rndInt(2,3):5;
   var provRefs=makeProviderRefs(provCount);
 
   // Auto-enable ZIP for large outputs
